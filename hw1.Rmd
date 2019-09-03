@@ -1,30 +1,43 @@
 ---
-title: "hw1"
+title: "HW1_qguo0701"
 author: "Qing Guo"
 date: "2019/9/3"
 output: pdf_document
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Part A
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+1.to learn how to use some popular software such as R, Python to analysis data
+2.to learn how to use github to complete a project with co-workers
+3.to learn how to draw some beautiful plots and pictures
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Part B
+Three density functions
 
-```{r cars}
-summary(cars)
+Example1:
+
+$f_{X}(x)=P(X=x)=\left\{\begin{array}{ll}{(1-p)^{x-1} p} & {\text { for } x=1,2, \ldots} \\ {0} & {\text { otherwise. }}\end{array}\right.$
+
+Example2:
+
+$f_{X}(x)=\frac{2}{9}(x+1), \quad-1 \leq x \leq 2$
+
+Examlpe3:
+
+$f_{X}(x)=\frac{4}{\beta^{3} \sqrt{\pi}} x^{2} e^{-x^{2} / \beta^{2}}, \quad 0<x<\infty, \quad \beta>0$
+
+## Problem 3
+
+Replication is desired by many reproducible research and sicentists are now under much pressure to achieve it. As far as I am concerned, it is truely that to ensure some research trials repetition and reproducibility is increasingly important. We can apply the reproducible reseach results to enhancing data processing effeciently, which is a good habit for a time-saver in the long run.
+
+## Problem 4
+
+```{r Nile, echo=FALSE}
+hist(Nile)
+plot(EuStockMarkets[1:20],type="p")
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
