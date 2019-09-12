@@ -102,7 +102,7 @@ plants_1<-plants%>%select(c('Scientific_Name','Foliage_Color', 'pH_Min', 'pH_Max
 plants<-plants_1
 plants$PH_Mean<-(plants$pH_Min+plants$pH_Max)/2
 plants$Foliage_Color<-factor(plants$Foliage_Color)
-plants
+head(plants)
 aggregate(plants$PH_Mean,by=list(plants$Foliage_Color),FUN=mean)
 aggregate(plants$PH_Mean,by=list(plants$Foliage_Color),FUN=sd)
 plants.anova<-aov(plants$PH_Mean~plants$Foliage_Color,data=plants)
