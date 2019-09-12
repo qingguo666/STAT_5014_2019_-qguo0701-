@@ -77,12 +77,14 @@ t
 ```
 
 ## Praoblem 5
-```{r}
+```{r include=FALSE}
 #install.packages("swirl") 
 library(swirl)  
 install_course("R_Programming_E")  
 swirl()  
 bye()
+```
+```{r}
 # Path to data
 .datapath <- file.path(path.package('swirl'), 'Courses',
                        'R_Programming_E', 'Looking_at_Data',
