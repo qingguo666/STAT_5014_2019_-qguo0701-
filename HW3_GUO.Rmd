@@ -1,0 +1,115 @@
+---
+title: "HW3_GUO"
+author: "Qing Guo"
+date: "9/12/2019"
+output: pdf_document
+---
+
+## Problem 3
+
+a.Sensory data from five operators
+```{r}
+#install.packages("tibble")
+library(tibble)
+#install.packages("dplyr")
+library(dplyr)
+url<-"https://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/Sensory.dat"
+a<-read.table(url,header=T,sep=" ",skip=1,fill=T)
+a1<-filter(a,!is.na(X5))
+a2<-filter(a,is.na(X5))
+Item<-c()
+for(i in 1:10){Item<-c(Item,rep(i,2))}
+a22<-a2%>%select(Item:X4)%>%`colnames<-`(c("X1", "X2", "X3",'X4','X5'))
+a22<-cbind(Item,a22)
+a<-rbind(a22,a1)
+a%>%arrange(Item)
+```
+
+b.Gold Medal performance
+```{r}
+url<-"https://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/LongJumpData.dat"
+a<-read.table(url,sep=" ",skip=1,fill=T)
+a=as.data.frame(a)
+a<-rbind(as.matrix(a[,1:2]),as.matrix(a[,3:4]),as.matrix(a[,5:6]),as.matrix(a[,7:8]))
+a_new<-a%>%as.data.frame()%>%filter(!is.na(V1&V2))%>%`colnames<-`(c("year","long_jump"))
+summarise_at(a_new, vars(long_jump),list(~n(),  ~mean(., na.rm = TRUE),~median(.,na.rm = TRUE)))
+summary(lm(long_jump~year,a_new))
+```
+
+c.Brain weight (g) and body weight (kg)
+```{r}
+url<-"https://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/BrainandBodyWeight.dat"
+a<-read.table(url,sep=" ",skip=1,fill=T)
+a<-rbind(as.matrix(a[,1:2]),as.matrix(a[,3:4]),as.matrix(a[,5:6]))
+a<-a[1:62,]
+a<-as.data.frame(a)
+colnames(a)<-c("Body WT","Brain WT")
+a
+summarise_at(a, vars(c("Body WT","Brain WT")),list(~n(),  ~mean(., na.rm = TRUE),~median(.,na.rm = TRUE)))
+
+```
+
+d.Triplicate measurements of tomato yield
+```{r}
+library(stringr)
+url<-"https://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/tomato.dat"
+a<-read.table(url,sep="",skip=1,fill=T,comment.char="")
+a<-as.data.frame(a)
+d<-c()
+for (i in 1:2){
+  for (j in 1:3){
+    bi_j<-a[i,j]
+    bi_j<-unlist(str_split(bi_j,","))
+    bi_j<-as.numeric(bi_j[1:3])
+    d<-c(d,bi_j)
+  }
+}
+b1<-d[1:9]
+b2<-d[10:18]
+b3<-c(rep(10000,3),rep(20000,3),rep(30000,3))
+dataframe<-tibble(b3,b1,b2)
+colnames(dataframe)<-c("Number","Ife\\#1","PusaEarlyDwarf")
+dataframe<--as.data.frame(dataframe)
+summarise_at(dataframe, vars(c("Ife\\#1","PusaEarlyDwarf")),list(~n(),  ~mean(., na.rm = TRUE),~median(.,na.rm = TRUE)))
+t = dataframe %>% group_by(Number) %>%
+  summarise_at(vars("Ife\\#1":"PusaEarlyDwarf"), funs(n(), mean(., na.rm = TRUE)))
+t
+```
+
+## Praoblem 5
+```{r}
+#install.packages("swirl") 
+library(swirl)  
+install_course("R_Programming_E")  
+swirl()  
+bye()
+# Path to data
+.datapath <- file.path(path.package('swirl'), 'Courses',
+                       'R_Programming_E', 'Looking_at_Data',
+                       'plant-data.txt')
+# Read in data
+plants <- read.csv(.datapath, strip.white=TRUE, na.strings="")
+.cols2rm <- c('Accepted.Symbol', 'Synonym.Symbol')
+plants <- plants[, !(names(plants) %in% .cols2rm)]
+# Make names pretty
+names(plants) <- c('Scientific_Name', 'Duration', 'Active_Growth_Period',
+                   'Foliage_Color', 'pH_Min', 'pH_Max',
+                   'Precip_Min', 'Precip_Max',
+                   'Shade_Tolerance', 'Temp_Min_F')
+na_plants<-apply(is.na(plants),1,sum)
+plants<-plants[-which((na_plants)>0),]
+plants_1<-plants%>%select(c('Scientific_Name','Foliage_Color', 'pH_Min', 'pH_Max'))
+plants<-plants_1
+plants$PH_Mean<-(plants$pH_Min+plants$pH_Max)/2
+plants$Foliage_Color<-factor(plants$Foliage_Color)
+plants
+aggregate(plants$PH_Mean,by=list(plants$Foliage_Color),FUN=mean)
+aggregate(plants$PH_Mean,by=list(plants$Foliage_Color),FUN=sd)
+plants.anova<-aov(plants$PH_Mean~plants$Foliage_Color,data=plants)
+F1<-summary(plants.anova)
+F1
+plants$Foliage_Color<-plants$Foliage_Color%>%as.factor()%>%as.numeric()
+F2<-lm(plants$PH_Mean~plants$Foliage_Color,data=plants)
+F2<-summary(F2)
+F2
+```
