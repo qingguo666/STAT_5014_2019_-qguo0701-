@@ -1,0 +1,124 @@
+---
+title: "HW4_GUO"
+author: "Qing Guo"
+date: "2019-09-25"
+output: pdf_document
+---
+
+## Problem 5
+```{r}
+#install.packages("lintr")
+#library(lintr)
+#lint(filename="C:/Users/Administrator/Desktop/PAKG HW/STAT_5014_2019_-qguo0701-/HW3_GUO.Rmd")
+```
+
+## Problem 6
+a
+```{r}
+A<-readRDS("HW4_data.rds")
+mysum<-function(dev1,dev2){
+  mean_1<-mean(dev1)
+  mean_2<-mean(dev2)
+  sd_1<-sd(dev1)
+  sd_2<-sd(dev2)
+  correlation<-cor(dev1,dev2)
+  a<-data.frame(mean_1,mean_2,sd_1,sd_2,correlation)
+  return (a)
+}
+a1<-A[which(A$Observer == 1), ]
+a2<-A[which(A$Observer == 2), ]
+a3<-A[which(A$Observer == 3), ]
+a4<-A[which(A$Observer == 4), ]
+a5<-A[which(A$Observer == 5), ]
+a6<-A[which(A$Observer == 6), ]
+a7<-A[which(A$Observer == 7), ]
+a8<-A[which(A$Observer == 8), ]
+a9<-A[which(A$Observer == 9), ]
+a10<-A[which(A$Observer == 10), ]
+a11<-A[which(A$Observer == 11), ]
+a12<-A[which(A$Observer == 12), ]
+a13<-A[which(A$Observer == 13), ]
+# aa<-data.frame
+# for (i in 1:13){
+#   a<-paste("a",i,sep="")
+#   a<-mysum(a$dev1,a$dev1)
+#   aa<-rbind(aa,a)
+#   return(aa)
+# }
+aa1<-mysum(a1$dev1,a1$dev2)
+aa2<-mysum(a2$dev1,a2$dev2)
+aa3<-mysum(a3$dev1,a3$dev2)
+aa4<-mysum(a4$dev1,a4$dev2)
+aa5<-mysum(a5$dev1,a5$dev2)
+aa6<-mysum(a6$dev1,a6$dev2)
+aa7<-mysum(a7$dev1,a7$dev2)
+aa8<-mysum(a8$dev1,a8$dev2)
+aa9<-mysum(a9$dev1,a9$dev2)
+aa10<-mysum(a10$dev1,a10$dev2)
+aa11<-mysum(a11$dev1,a11$dev2)
+aa12<-mysum(a12$dev1,a12$dev2)
+aa13<-mysum(a13$dev1,a13$dev2)
+aa<-rbind(aa1,aa2,aa3,aa4,aa5,aa6,aa7,aa8,aa9,aa10,aa11,aa12,aa13)
+observer<-seq(1:13)
+aa<-cbind(observer,aa)
+```
+b.
+```{r}
+observer<-seq(1:13)
+aa<-cbind(observer,aa)
+b1<-aa$mean_1
+b2<-aa$mean_2
+c1<-aa$sd_1
+c2<-aa$sd_2
+b<-cbind(b1,b2)
+b<-as.matrix(b)
+boxplot(b)
+```
+c.
+```{r}
+c<-cbind(c1,c2)
+c<-as.matrix(c)
+#install.packages("vioplot")
+library(vioplot)
+par(mfrow=c(1,2))
+vioplot(c1)
+vioplot(c2)
+```
+
+## Problem 8
+```{r}
+integration<-function(a,b,n){
+  d<-(b-a)/n
+  int<-0
+  for (i in 1:n){
+    c<-((b-a)/n)*i+a
+    int<-int+d*exp(-c^2/2)
+  }
+  return(int)
+}
+integration(0,1,1000000)
+```
+## Problem 9
+```{r}
+df<-function(x){
+  df<-(3^x)*log(3)-cos(x)-5*sin(5*x)
+  return(df)
+}
+f<-function(x){
+  f<-3^x+sin(x)-5*cos(5*x)
+  return(f)
+}
+e<-c()
+d<-abs(f(0))
+x<-0
+while (d>0.05){
+  x<-x-(f(x)/df(x))
+  d<-abs(f(x))
+  e<-c(e,x)
+}
+plot(e,type="l")
+```
+
+
+
+
